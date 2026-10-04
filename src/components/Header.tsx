@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import type { PageType } from '../App';
 
-export default function Header() {
+interface HeaderProps {
+  currentPage: PageType;
+  navigate: (page: PageType) => void;
+}
+
+export default function Header({ currentPage, navigate }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -12,17 +16,13 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location]);
-
-  const navLinks = [
-    { path: '/', label: 'Главная' },
-    { path: '/excursions', label: 'Экскурсии' },
-    { path: '/tours', label: 'Туры' },
-    { path: '/about', label: 'О нас' },
-    { path: '/reviews', label: 'Отзывы' },
-    { path: '/contacts', label: 'Контакты' },
+  const navLinks: { page: PageType; label: string }[] = [
+    { page: 'home', label: 'Главная' },
+    { page: 'excursions', label: 'Экскурсии' },
+    { page: 'tours', label: 'Туры' },
+    { page: 'about', label: 'О нас' },
+    { page: 'reviews', label: 'Отзывы' },
+    { page: 'contacts', label: 'Контакты' },
   ];
 
   return (
@@ -32,7 +32,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <button onClick={() => navigate('home')} className="flex items-center gap-3 group">
             <div className="w-10 h-10 bg-gradient-to-br from-[#c8a45c] to-[#a8843c] flex items-center justify-center">
               <span className="font-display text-[#0d1b14] font-bold text-lg">ГС</span>
             </div>
@@ -44,25 +44,25 @@ export default function Header() {
                 Сахалин
               </span>
             </div>
-          </Link>
+          </button>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map(link => (
-              <Link
-                key={link.path}
-                to={link.path}
+              <button
+                key={link.page}
+                onClick={() => navigate(link.page)}
                 className={`px-4 py-2 text-sm tracking-wide transition-all duration-300 relative group ${
-                  location.pathname === link.path
+                  currentPage === link.page
                     ? 'text-[#c8a45c]'
                     : 'text-[#f5f0e8]/80 hover:text-[#c8a45c]'
                 }`}
               >
                 {link.label}
                 <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] bg-[#c8a45c] transition-all duration-300 ${
-                  location.pathname === link.path ? 'w-full' : 'w-0 group-hover:w-full'
+                  currentPage === link.page ? 'w-full' : 'w-0 group-hover:w-full'
                 }`} />
-              </Link>
+              </button>
             ))}
           </nav>
 
@@ -71,9 +71,9 @@ export default function Header() {
             <a href="tel:+79004885555" className="text-sm text-[#f5f0e8]/70 hover:text-[#c8a45c] transition-colors">
               +7 (900) 488-55-55
             </a>
-            <Link to="/tours" className="btn-primary text-sm px-6 py-2.5 inline-block">
+            <button onClick={() => navigate('tours')} className="btn-primary text-sm px-6 py-2.5">
               Забронировать
-            </Link>
+            </button>
           </div>
 
           {/* Mobile burger */}
@@ -94,22 +94,22 @@ export default function Header() {
       }`}>
         <nav className="flex flex-col items-center justify-center h-full gap-6">
           {navLinks.map(link => (
-            <Link
-              key={link.path}
-              to={link.path}
+            <button
+              key={link.page}
+              onClick={() => navigate(link.page)}
               className={`text-2xl font-display tracking-wide transition-colors ${
-                location.pathname === link.path ? 'text-[#c8a45c]' : 'text-[#f5f0e8]/80'
+                currentPage === link.page ? 'text-[#c8a45c]' : 'text-[#f5f0e8]/80'
               }`}
             >
               {link.label}
-            </Link>
+            </button>
           ))}
           <a href="tel:+79004885555" className="mt-4 text-[#c8a45c] text-lg">
             +7 (900) 488-55-55
           </a>
-          <Link to="/tours" className="btn-primary mt-4">
+          <button onClick={() => navigate('tours')} className="btn-primary mt-4">
             Забронировать тур
-          </Link>
+          </button>
         </nav>
       </div>
     </header>

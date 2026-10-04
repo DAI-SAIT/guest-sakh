@@ -1,5 +1,9 @@
-import { Link } from 'react-router-dom';
+import type { PageType } from '../App';
 import { useEffect, useRef, useState } from 'react';
+
+interface PageProps {
+  navigate: (page: PageType) => void;
+}
 
 const excursions = [
   { id: 1, title: 'Мыс Евстафия и Голубые озера', price: '12 000', img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop' },
@@ -27,7 +31,6 @@ const reviews = [
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
-  
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setIsInView(true); },
@@ -36,11 +39,10 @@ function useInView(threshold = 0.1) {
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [threshold]);
-  
   return { ref, isInView };
 }
 
-export default function HomePage() {
+export default function HomePage({ navigate }: PageProps) {
   const heroRef = useInView();
   const awardRef = useInView();
   const excursionsRef = useInView();
@@ -51,70 +53,46 @@ export default function HomePage() {
 
   return (
     <main>
-      {/* ===== HERO SECTION ===== */}
+      {/* HERO */}
       <section className="relative h-screen min-h-[700px] flex items-center overflow-hidden">
-        {/* Background */}
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&q=80"
-            alt="Сахалин — край вулканов и океана"
-            className="w-full h-full object-cover"
-          />
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&q=80" alt="Сахалин" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0d1b14]/90 via-[#0d1b14]/60 to-[#0d1b14]/30" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d1b14] via-transparent to-transparent" />
         </div>
-
-        {/* Content */}
         <div ref={heroRef.ref} className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full transition-all duration-1000 ${heroRef.isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="max-w-3xl">
-            {/* Decorative line */}
             <div className="flex items-center gap-4 mb-8">
               <div className="w-12 h-[1px] bg-[#c8a45c]" />
               <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase font-display">Туроператор Сахалинской области</span>
             </div>
-
             <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6">
-              <span className="text-[#f5f0e8]">Паспорт путешественника</span>
-              <br />
-              <span className="text-[#f5f0e8]">ждёт новой</span>{' '}
+              <span className="text-[#f5f0e8]">Паспорт путешественника</span><br />
+              <span className="text-[#f5f0e8]">ждёт новой </span>
               <span className="gradient-text">печати.</span>
             </h1>
-
             <div className="flex items-baseline gap-4 mb-4">
               <span className="font-display text-5xl sm:text-6xl md:text-7xl font-black gradient-text">Сахалин</span>
             </div>
-
-            <p className="text-lg sm:text-xl text-[#f5f0e8]/70 font-light mb-2 max-w-xl">
-              Здесь начинается день
-            </p>
-            <p className="text-base text-[#f5f0e8]/50 mb-10 max-w-lg">
-              Заброшенные маяки, дикие тропы, места силы. Покажем то, о чём вы только слышали.
-            </p>
-
+            <p className="text-lg sm:text-xl text-[#f5f0e8]/70 font-light mb-2 max-w-xl">Здесь начинается день</p>
+            <p className="text-base text-[#f5f0e8]/50 mb-10 max-w-lg">Заброшенные маяки, дикие тропы, места силы. Покажем то, о чём вы только слышали.</p>
             <div className="flex flex-wrap gap-4">
-              <Link to="/tours" className="btn-primary inline-block">
-                Оформить заявку
-              </Link>
-              <Link to="/excursions" className="btn-outline inline-block">
-                Смотреть экскурсии
-              </Link>
+              <button onClick={() => navigate('tours')} className="btn-primary">Оформить заявку</button>
+              <button onClick={() => navigate('excursions')} className="btn-outline">Смотреть экскурсии</button>
             </div>
           </div>
         </div>
-
-        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-float">
           <span className="text-[10px] tracking-[0.3em] text-[#c8a45c]/60 uppercase">Scroll</span>
           <div className="w-[1px] h-8 bg-gradient-to-b from-[#c8a45c]/60 to-transparent" />
         </div>
       </section>
 
-      {/* ===== AWARD SECTION ===== */}
+      {/* AWARD */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0d1b14] via-[#1a3a2a]/20 to-[#0d1b14]" />
         <div ref={awardRef.ref} className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${awardRef.isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="glass rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
-            {/* Trophy icon */}
             <div className="w-24 h-24 flex-shrink-0 relative">
               <div className="absolute inset-0 bg-gradient-to-br from-[#c8a45c]/20 to-transparent rounded-full animate-pulse-glow" />
               <div className="relative w-full h-full flex items-center justify-center">
@@ -128,39 +106,27 @@ export default function HomePage() {
             </div>
             <div>
               <span className="text-[#c8a45c] text-xs tracking-[0.2em] uppercase font-display block mb-3">Достижение</span>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-[#f5f0e8] mb-3">
-                Лучший туроператор Сахалинской области 2023 года
-              </h2>
-              <p className="text-[#f5f0e8]/60 text-sm max-w-lg">
-                По версии Министерства экономики Сахалинской области. Мы гордимся доверием наших гостей и продолжаем развивать туризм на высшем уровне.
-              </p>
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-[#f5f0e8] mb-3">Лучший туроператор Сахалинской области 2023 года</h2>
+              <p className="text-[#f5f0e8]/60 text-sm max-w-lg">По версии Министерства экономики Сахалинской области.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ===== EXCURSIONS SECTION ===== */}
+      {/* EXCURSIONS */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0 bg-[#0d1b14]" />
         <div ref={excursionsRef.ref} className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${excursionsRef.isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {/* Section header */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="section-divider" />
                 <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase font-display">Откройте для себя</span>
               </div>
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold">
-                Самые колоритные<br />
-                <span className="gradient-text">экскурсии</span>
-              </h2>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold">Самые колоритные<br /><span className="gradient-text">экскурсии</span></h2>
             </div>
-            <Link to="/excursions" className="btn-outline inline-block text-sm">
-              Все экскурсии →
-            </Link>
+            <button onClick={() => navigate('excursions')} className="btn-outline text-sm">Все экскурсии →</button>
           </div>
-
-          {/* Cards grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {excursions.map((item, idx) => (
               <div key={item.id} className="group card-hover" style={{ animationDelay: `${idx * 0.1}s` }}>
@@ -170,56 +136,37 @@ export default function HomePage() {
                   <div className="absolute bottom-4 left-4 right-4">
                     <span className="text-[#c8a45c] font-display text-lg font-bold">{item.price} ₽</span>
                   </div>
-                  {/* Corner accent */}
-                  <div className="absolute top-0 right-0 w-12 h-12">
-                    <div className="absolute top-0 right-0 w-full h-[1px] bg-[#c8a45c] transition-all duration-500 group-hover:w-full" />
-                    <div className="absolute top-0 right-0 h-full w-[1px] bg-[#c8a45c] transition-all duration-500 group-hover:h-full" />
-                  </div>
                 </div>
-                <h3 className="font-display text-sm font-medium text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors leading-snug">
-                  {item.title}
-                </h3>
+                <h3 className="font-display text-sm font-medium text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors leading-snug">{item.title}</h3>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ===== TOURS SECTION ===== */}
+      {/* TOURS */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0d1b14] via-[#1a3a2a]/10 to-[#0d1b14]" />
         <div ref={toursRef.ref} className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${toursRef.isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {/* Section header */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="section-divider" />
                 <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase font-display">Погружение</span>
               </div>
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold">
-                Самые потрясающие<br />
-                <span className="gradient-text">туры</span>
-              </h2>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold">Самые потрясающие<br /><span className="gradient-text">туры</span></h2>
             </div>
-            <Link to="/tours" className="btn-outline inline-block text-sm">
-              Все туры →
-            </Link>
+            <button onClick={() => navigate('tours')} className="btn-outline text-sm">Все туры →</button>
           </div>
-
-          {/* Cards grid - 2x2 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {tours.map((item, idx) => (
-              <div key={item.id} className="group card-hover" style={{ animationDelay: `${idx * 0.15}s` }}>
+            {tours.map((item) => (
+              <div key={item.id} className="group card-hover">
                 <div className="relative overflow-hidden aspect-[16/10] mb-5">
                   <img src={item.img} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d1b14] via-[#0d1b14]/20 to-transparent" />
                   <div className="absolute bottom-6 left-6 right-6">
-                    <span className="inline-block bg-[#c8a45c] text-[#0d1b14] px-3 py-1 text-xs font-display font-bold mb-3">
-                      {item.price} ₽
-                    </span>
-                    <h3 className="font-display text-lg font-semibold text-[#f5f0e8] leading-snug">
-                      {item.title}
-                    </h3>
+                    <span className="inline-block bg-[#c8a45c] text-[#0d1b14] px-3 py-1 text-xs font-display font-bold mb-3">{item.price} ₽</span>
+                    <h3 className="font-display text-lg font-semibold text-[#f5f0e8] leading-snug">{item.title}</h3>
                   </div>
                 </div>
               </div>
@@ -228,44 +175,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== WHY CHOOSE US ===== */}
+      {/* WHY US */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0 bg-[#0d1b14]" />
         <div ref={whyRef.ref} className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${whyRef.isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Image */}
             <div className="relative">
               <div className="relative overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&h=600&fit=crop"
-                  alt="Команда Гостеприимный Сахалин"
-                  className="w-full h-[400px] md:h-[500px] object-cover"
-                />
+                <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&h=600&fit=crop" alt="Команда" className="w-full h-[400px] md:h-[500px] object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0d1b14]/50 to-transparent" />
               </div>
-              {/* Floating badge */}
               <div className="absolute -bottom-6 -right-6 md:right-8 glass rounded-xl p-6 max-w-[200px]">
                 <span className="font-display text-3xl font-bold gradient-text block">244+</span>
-                <span className="text-xs text-[#f5f0e8]/60">довольных отзывов от наших гостей</span>
+                <span className="text-xs text-[#f5f0e8]/60">довольных отзывов</span>
               </div>
             </div>
-
-            {/* Right - Content */}
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="section-divider" />
                 <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase font-display">Наши ценности</span>
               </div>
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-10">
-                Почему выбирают<br /><span className="gradient-text">нас?</span>
-              </h2>
-
+              <h2 className="font-display text-3xl md:text-4xl font-bold mb-10">Почему выбирают<br /><span className="gradient-text">нас?</span></h2>
               <div className="space-y-6">
                 {[
                   { icon: '⚡', text: 'Оперативность подбора туров и экскурсий' },
                   { icon: '💳', text: 'Удобные способы оплаты, гибкая система скидок' },
-                  { icon: '🏔', text: 'Проверенные гиды, экскурсоводы знают историю, традиции и особенности маршрутов Сахалинской области' },
-                  { icon: '🌍', text: 'Организация Вашего отдыха круглый год. Большой выбор туров и экскурсий.' },
+                  { icon: '🏔', text: 'Проверенные гиды знают историю, традиции и особенности маршрутов' },
+                  { icon: '🌍', text: 'Организация отдыха круглый год. Большой выбор туров и экскурсий.' },
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-4 group">
                     <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center border border-[#c8a45c]/20 group-hover:border-[#c8a45c]/60 transition-colors">
@@ -280,7 +216,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== ADVANTAGES ===== */}
+      {/* ADVANTAGES */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0d1b14] via-[#1a3a2a]/10 to-[#0d1b14]" />
         <div ref={advantagesRef.ref} className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${advantagesRef.isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -290,19 +226,16 @@ export default function HomePage() {
               <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase font-display">Преимущества</span>
               <div className="w-12 h-[1px] bg-[#c8a45c]/50" />
             </div>
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Наши <span className="gradient-text">преимущества</span>
-            </h2>
+            <h2 className="font-display text-3xl md:text-4xl font-bold">Наши <span className="gradient-text">преимущества</span></h2>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { icon: '💰', title: 'Доступные цены', desc: 'Честная стоимость без скрытых платежей' },
               { icon: '🏆', title: 'Опыт и профессионализм', desc: 'Лучший туроператор области 2023 года' },
               { icon: '🛡', title: 'Надёжность и гарантии', desc: 'Официальный туроператор с лицензией' },
               { icon: '🚀', title: 'Оперативность', desc: 'Быстрое решение ваших вопросов' },
-              { icon: '⭐', title: 'Качественный сервис', desc: 'Внимание к каждой детали вашего отдыха' },
-              { icon: '🤝', title: 'Индивидуальный подход', desc: 'К каждому гостю — персональное внимание' },
+              { icon: '⭐', title: 'Качественный сервис', desc: 'Внимание к каждой детали' },
+              { icon: '🤝', title: 'Индивидуальный подход', desc: 'Персональное внимание к каждому гостю' },
             ].map((item, idx) => (
               <div key={idx} className="glass rounded-xl p-8 card-hover text-center group">
                 <div className="text-4xl mb-4 transition-transform duration-300 group-hover:scale-110">{item.icon}</div>
@@ -314,7 +247,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== REVIEWS ===== */}
+      {/* REVIEWS */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0 bg-[#0d1b14]" />
         <div ref={reviewsRef.ref} className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${reviewsRef.isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -324,9 +257,7 @@ export default function HomePage() {
                 <div className="section-divider" />
                 <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase font-display">Что говорят гости</span>
               </div>
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold">
-                Отзывы о <span className="gradient-text">нас</span>
-              </h2>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold">Отзывы о <span className="gradient-text">нас</span></h2>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-center">
@@ -340,8 +271,6 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-
-          {/* Reviews grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {reviews.map((review, idx) => (
               <div key={idx} className="review-card">
@@ -356,9 +285,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex gap-1 mb-3">
                   {[...Array(5)].map((_, i) => (
-                    <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="#c8a45c">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
+                    <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="#c8a45c"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
                   ))}
                 </div>
                 <p className="text-sm text-[#f5f0e8]/70 leading-relaxed mb-4">{review.text}</p>
@@ -366,35 +293,24 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-
           <div className="text-center mt-12">
-            <Link to="/reviews" className="btn-outline inline-block">
-              Все отзывы →
-            </Link>
+            <button onClick={() => navigate('reviews')} className="btn-outline">Все отзывы →</button>
           </div>
         </div>
       </section>
 
-      {/* ===== CTA SECTION ===== */}
+      {/* CTA */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&h=600&fit=crop" alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-[#0d1b14]/80" />
         </div>
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Готовы к <span className="gradient-text">приключению?</span>
-          </h2>
-          <p className="text-lg text-[#f5f0e8]/60 mb-10 max-w-2xl mx-auto">
-            Забронируйте тур или экскурсию прямо сейчас и откройте для себя удивительный мир Сахалина и Курильских островов.
-          </p>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Готовы к <span className="gradient-text">приключению?</span></h2>
+          <p className="text-lg text-[#f5f0e8]/60 mb-10 max-w-2xl mx-auto">Забронируйте тур или экскурсию прямо сейчас и откройте для себя удивительный мир Сахалина.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/tours" className="btn-primary inline-block">
-              Забронировать тур
-            </Link>
-            <a href="tel:+79004885555" className="btn-outline inline-block">
-              +7 (900) 488-55-55
-            </a>
+            <button onClick={() => navigate('tours')} className="btn-primary">Забронировать тур</button>
+            <a href="tel:+79004885555" className="btn-outline">+7 (900) 488-55-55</a>
           </div>
         </div>
       </section>
