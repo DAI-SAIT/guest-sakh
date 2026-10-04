@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import type { PageType } from '../App';
 
-interface PageProps { navigate: (page: PageType) => void; }
-
-export default function ContactsPage({ navigate: _navigate }: PageProps) {
+export default function ContactsPage() {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
@@ -23,9 +20,11 @@ export default function ContactsPage({ navigate: _navigate }: PageProps) {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-[1px] bg-[#c8a45c]" />
-            <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase font-display">Связь</span>
+            <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase" style={{fontFamily: 'Unbounded, sans-serif'}}>Связь</span>
           </div>
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold"><span className="gradient-text">Контакты</span></h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold" style={{fontFamily: 'Unbounded, sans-serif'}}>
+            <span className="bg-gradient-to-r from-[#c8a45c] to-[#e8d49c] bg-clip-text text-transparent">Контакты</span>
+          </h1>
         </div>
       </section>
 
@@ -33,45 +32,39 @@ export default function ContactsPage({ navigate: _navigate }: PageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
-              <h2 className="font-display text-2xl font-bold mb-8">Свяжитесь с нами или забронируйте тур</h2>
+              <h2 className="text-2xl font-bold mb-8" style={{fontFamily: 'Unbounded, sans-serif'}}>Свяжитесь с нами</h2>
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-[#c8a45c] text-xs tracking-[0.2em] uppercase font-display mb-4">Телефоны</h3>
+                  <h3 className="text-[#c8a45c] text-xs tracking-[0.2em] uppercase mb-4" style={{fontFamily: 'Unbounded, sans-serif'}}>Телефоны</h3>
                   <div className="space-y-3">
-                    <a href="tel:+79004885555" className="flex items-center gap-4 group">
-                      <div className="w-12 h-12 flex items-center justify-center border border-[#c8a45c]/20 group-hover:border-[#c8a45c] transition-colors">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a45c" strokeWidth="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
-                      </div>
-                      <span className="text-lg text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors">+7 (900) 488-55-55</span>
-                    </a>
-                    <a href="tel:+74242215555" className="flex items-center gap-4 group">
-                      <div className="w-12 h-12 flex items-center justify-center border border-[#c8a45c]/20 group-hover:border-[#c8a45c] transition-colors">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a45c" strokeWidth="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
-                      </div>
-                      <span className="text-lg text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors">+7 (4242) 21-55-55</span>
-                    </a>
-                    <a href="tel:+79004268855" className="flex items-center gap-4 group">
-                      <div className="w-12 h-12 flex items-center justify-center border border-[#c8a45c]/20 group-hover:border-[#c8a45c] transition-colors">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a45c" strokeWidth="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
-                      </div>
-                      <span className="text-lg text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors">+7 (900) 426-88-55</span>
-                    </a>
+                    {['+7 (900) 488-55-55', '+7 (4242) 21-55-55', '+7 (900) 426-88-55'].map((phone, i) => (
+                      <a key={i} href={`tel:${phone.replace(/\D/g, '')}`} className="flex items-center gap-4 group">
+                        <div className="w-12 h-12 flex items-center justify-center border border-[#c8a45c]/20 group-hover:border-[#c8a45c] transition-colors">
+                          <span className="text-[#c8a45c]">📞</span>
+                        </div>
+                        <span className="text-lg text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors">{phone}</span>
+                      </a>
+                    ))}
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-[#c8a45c] text-xs tracking-[0.2em] uppercase font-display mb-4">Электронная почта</h3>
-                  <a href="mailto:admin@guest-sakhalin.ru" className="flex items-center gap-4 group">
-                    <div className="w-12 h-12 flex items-center justify-center border border-[#c8a45c]/20 group-hover:border-[#c8a45c] transition-colors">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a45c" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
-                    </div>
-                    <span className="text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors">admin@guest-sakhalin.ru</span>
-                  </a>
+                  <h3 className="text-[#c8a45c] text-xs tracking-[0.2em] uppercase mb-4" style={{fontFamily: 'Unbounded, sans-serif'}}>Электронная почта</h3>
+                  <div className="space-y-3">
+                    {['admin@guest-sakhalin.ru', 'director@guest-sakhalin.ru'].map((email, i) => (
+                      <a key={i} href={`mailto:${email}`} className="flex items-center gap-4 group">
+                        <div className="w-12 h-12 flex items-center justify-center border border-[#c8a45c]/20 group-hover:border-[#c8a45c] transition-colors">
+                          <span className="text-[#c8a45c]">✉️</span>
+                        </div>
+                        <span className="text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors">{email}</span>
+                      </a>
+                    ))}
+                  </div>
                 </div>
                 <div>
-                  <h3 className="text-[#c8a45c] text-xs tracking-[0.2em] uppercase font-display mb-4">Адрес</h3>
+                  <h3 className="text-[#c8a45c] text-xs tracking-[0.2em] uppercase mb-4" style={{fontFamily: 'Unbounded, sans-serif'}}>Адрес</h3>
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center border border-[#c8a45c]/20">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a45c" strokeWidth="1.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
+                      <span className="text-[#c8a45c]">📍</span>
                     </div>
                     <div>
                       <p className="text-[#f5f0e8]">Южно-Сахалинск, улица Карла Маркса, 51, офис 103А</p>
@@ -80,25 +73,26 @@ export default function ContactsPage({ navigate: _navigate }: PageProps) {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-[#c8a45c] text-xs tracking-[0.2em] uppercase font-display mb-4">Мы в соцсетях</h3>
+                  <h3 className="text-[#c8a45c] text-xs tracking-[0.2em] uppercase mb-4" style={{fontFamily: 'Unbounded, sans-serif'}}>Мы в соцсетях</h3>
                   <div className="flex flex-wrap gap-3">
-                    <a href="https://vk.com/guest_sakh" target="_blank" rel="noopener noreferrer" className="px-4 py-2 border border-[#c8a45c]/20 text-sm text-[#f5f0e8]/70 hover:bg-[#c8a45c] hover:text-[#0d1b14] transition-all">VK</a>
-                    <a href="https://wa.me/message/XMXALPB7NNZXO1" target="_blank" rel="noopener noreferrer" className="px-4 py-2 border border-[#c8a45c]/20 text-sm text-[#f5f0e8]/70 hover:bg-[#c8a45c] hover:text-[#0d1b14] transition-all">WhatsApp</a>
-                    <a href="https://t.me/viktoriyasakh65" target="_blank" rel="noopener noreferrer" className="px-4 py-2 border border-[#c8a45c]/20 text-sm text-[#f5f0e8]/70 hover:bg-[#c8a45c] hover:text-[#0d1b14] transition-all">Telegram</a>
-                    <a href="https://instagram.com/guest_sakh" target="_blank" rel="noopener noreferrer" className="px-4 py-2 border border-[#c8a45c]/20 text-sm text-[#f5f0e8]/70 hover:bg-[#c8a45c] hover:text-[#0d1b14] transition-all">Instagram</a>
+                    {['VK', 'WhatsApp', 'Telegram', 'Instagram', 'YouTube'].map((social, idx) => (
+                      <span key={idx} className="px-4 py-2 border border-[#c8a45c]/20 text-sm text-[#f5f0e8]/70 hover:bg-[#c8a45c] hover:text-[#0d1b14] hover:border-[#c8a45c] transition-all cursor-pointer">
+                        {social}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
 
             <div>
-              <div className="glass rounded-2xl p-8 md:p-10">
-                <h2 className="font-display text-xl font-bold mb-2">Оставить заявку</h2>
+              <div className="bg-[#1a3a2a]/30 backdrop-blur-xl border border-[#c8a45c]/15 rounded-2xl p-8 md:p-10">
+                <h2 className="text-xl font-bold mb-2" style={{fontFamily: 'Unbounded, sans-serif'}}>Оставить заявку</h2>
                 <p className="text-sm text-[#f5f0e8]/50 mb-8">Заполните форму и мы свяжемся с вами</p>
                 {submitted ? (
                   <div className="text-center py-12">
                     <div className="text-4xl mb-4">✓</div>
-                    <p className="font-display text-lg text-[#c8a45c]">Заявка отправлена!</p>
+                    <p className="text-lg text-[#c8a45c]" style={{fontFamily: 'Unbounded, sans-serif'}}>Заявка отправлена!</p>
                     <p className="text-sm text-[#f5f0e8]/50 mt-2">Мы свяжемся с вами в ближайшее время</p>
                   </div>
                 ) : (
@@ -119,11 +113,25 @@ export default function ContactsPage({ navigate: _navigate }: PageProps) {
                       <label className="text-xs text-[#f5f0e8]/50 uppercase tracking-wider block mb-2">Сообщение</label>
                       <textarea rows={4} value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="w-full bg-transparent border-b border-[#c8a45c]/20 focus:border-[#c8a45c] py-3 text-[#f5f0e8] outline-none transition-colors resize-none" placeholder="Какой тур вас интересует?" />
                     </div>
-                    <button type="submit" className="btn-primary w-full text-center">Отправить заявку</button>
+                    <button type="submit" className="w-full bg-gradient-to-r from-[#c8a45c] to-[#a8843c] text-[#0d1b14] font-semibold py-3.5 tracking-wide hover:shadow-lg hover:shadow-[#c8a45c]/20 transition-all">Отправить заявку</button>
+                    <p className="text-xs text-[#f5f0e8]/30 text-center">Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных</p>
                   </form>
                 )}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 border-t border-[#c8a45c]/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative h-[400px] bg-[#1a3a2a]/20 border border-[#c8a45c]/10 rounded-2xl overflow-hidden flex items-center justify-center">
+            <div className="text-center">
+              <span className="text-5xl block mb-4">📍</span>
+              <p className="text-lg text-[#f5f0e8]/60" style={{fontFamily: 'Unbounded, sans-serif'}}>г. Южно-Сахалинск</p>
+              <p className="text-sm text-[#f5f0e8]/40 mt-2">ул. Карла Маркса, 51, офис 103А</p>
+            </div>
+            <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'linear-gradient(rgba(200,164,92,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(200,164,92,0.3) 1px, transparent 1px)', backgroundSize: '40px 40px'}} />
           </div>
         </div>
       </section>

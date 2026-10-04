@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import type { PageType } from '../App';
-
-interface PageProps { navigate: (page: PageType) => void; }
+import { useNav } from '../context/NavContext';
 
 const categories = [
   { id: 'all', label: 'Все', count: 23 },
@@ -23,11 +21,11 @@ const excursions = [
   { id: 8, title: 'Мыс Крильон с ночёвкой в палатках', price: '22 000', cat: 'summer', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&h=400&fit=crop', desc: 'Двухдневное приключение на краю земли' },
   { id: 9, title: 'Мыс Виндис. Гора Коврижка', price: '12 000', cat: 'auto', img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&h=400&fit=crop', desc: 'Панорамные виды на Охотское море' },
   { id: 10, title: 'Рыбалка на горных реках Сахалина', price: '8 500', cat: 'fishing', img: 'https://images.unsplash.com/photo-1500463959177-e0869687df26?w=600&h=400&fit=crop', desc: 'Лосось, кунджа, голец' },
-  { id: 11, title: 'Зимняя экскурсия на снегоходах', price: '7 000', cat: 'winter', img: 'https://images.unsplash.com/photo-1491002052546-bf38f186af56?w=600&h=400&fit=crop', desc: 'Скоростные маршруты по заснеженным просторам' },
+  { id: 11, title: 'Зимняя экскурсия на снегоходах', price: '7 000', cat: 'winter', img: 'https://images.unsplash.com/photo-1491002052546-bf38f186af56?w=600&h=400&fit=crop', desc: 'Скоростные маршруты по снегу' },
   { id: 12, title: 'Тихая бухта – пляжи Охотского моря', price: '9 500', cat: 'summer', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop', desc: 'Уединённые пляжи и скалистые берега' },
 ];
 
-export default function ExcursionsPage({ navigate }: PageProps) {
+export default function ExcursionsPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const filtered = activeCategory === 'all' ? excursions : excursions.filter(e => e.cat === activeCategory);
 
@@ -41,9 +39,11 @@ export default function ExcursionsPage({ navigate }: PageProps) {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-[1px] bg-[#c8a45c]" />
-            <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase font-display">Каталог</span>
+            <span className="text-[#c8a45c] text-xs tracking-[0.3em] uppercase" style={{fontFamily: 'Unbounded, sans-serif'}}>Каталог</span>
           </div>
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Экскурсии по <span className="gradient-text">Сахалину</span></h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4" style={{fontFamily: 'Unbounded, sans-serif'}}>
+            Экскурсии по <span className="bg-gradient-to-r from-[#c8a45c] to-[#e8d49c] bg-clip-text text-transparent">Сахалину</span>
+          </h1>
           <p className="text-lg text-[#f5f0e8]/60 max-w-xl">Откройте для себя уникальные маршруты</p>
         </div>
       </section>
@@ -52,8 +52,9 @@ export default function ExcursionsPage({ navigate }: PageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap gap-3">
             {categories.map(cat => (
-              <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`px-5 py-2.5 text-sm font-medium transition-all duration-300 ${activeCategory === cat.id ? 'bg-[#c8a45c] text-[#0d1b14]' : 'border border-[#c8a45c]/20 text-[#f5f0e8]/70 hover:border-[#c8a45c]/60 hover:text-[#c8a45c]'}`}>
-                {cat.label} <span className="ml-2 opacity-60">({cat.count})</span>
+              <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
+                className={`px-5 py-2.5 text-sm font-medium transition-all duration-300 ${activeCategory === cat.id ? 'bg-[#c8a45c] text-[#0d1b14]' : 'border border-[#c8a45c]/20 text-[#f5f0e8]/70 hover:border-[#c8a45c]/60 hover:text-[#c8a45c]'}`}>
+                {cat.label} <span className="opacity-60">({cat.count})</span>
               </button>
             ))}
           </div>
@@ -64,15 +65,15 @@ export default function ExcursionsPage({ navigate }: PageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filtered.map((item) => (
-              <div key={item.id} className="group card-hover">
+              <div key={item.id} className="group cursor-pointer transition-all duration-400 hover:-translate-y-2 hover:shadow-xl hover:shadow-[#c8a45c]/10">
                 <div className="relative overflow-hidden aspect-[4/3] mb-5">
                   <img src={item.img} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d1b14] via-transparent to-transparent opacity-70" />
-                  <div className="absolute top-4 right-4 bg-[#c8a45c] text-[#0d1b14] px-3 py-1 text-xs font-display font-bold">{item.price} ₽</div>
+                  <div className="absolute top-4 right-4 bg-[#c8a45c] text-[#0d1b14] px-3 py-1 text-xs font-bold" style={{fontFamily: 'Unbounded, sans-serif'}}>{item.price} ₽</div>
                 </div>
-                <h3 className="font-display text-lg font-semibold text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors mb-2">{item.title}</h3>
+                <h3 className="text-lg font-semibold text-[#f5f0e8] group-hover:text-[#c8a45c] transition-colors mb-2" style={{fontFamily: 'Unbounded, sans-serif'}}>{item.title}</h3>
                 <p className="text-sm text-[#f5f0e8]/50 mb-4">{item.desc}</p>
-                <button onClick={() => navigate('contacts')} className="text-sm text-[#c8a45c] border-b border-[#c8a45c]/30 hover:border-[#c8a45c] transition-colors pb-1">Забронировать →</button>
+                <span className="text-sm text-[#c8a45c] border-b border-[#c8a45c]/30 pb-1">Подробнее →</span>
               </div>
             ))}
           </div>
